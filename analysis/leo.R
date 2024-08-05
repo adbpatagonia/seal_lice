@@ -23,11 +23,14 @@ library(quantreg)
 
 
 # functions -----
-source("R/compile_rmd.R")
+# source("R/compile_rmd.R")
 
 
 # read data -----
-leo <- read.csv("data/leopard.csv", sep = ";", dec = ",") %>%
+
+(paste0(here::here(), "/data/leopard.csv"))
+
+leo <- read.csv((paste0(here::here(), "/data/leopard.csv")), sep = ";", dec = ",") %>%
   as.data.table()
 
 # look at data structure ----
@@ -420,8 +423,8 @@ p.poster.sex.qr <- ggplot(leo, aes(x = rel_cond, y = Lice,
   ylab(licelabel) +
   NULL
 # compile report ------
-compile_rmd("PiojosFocaLeopardo")
+# compile_rmd("PiojosFocaLeopardo")
 # output -----
-ggsave(p.poster, filename = "output/LiceAbundance_bigfont.png", height = 5, width = 8)
-ggsave(p.poster.sex, filename = "output/LiceAbundance_sex.png", height = 5, width = 8)
-ggsave(p.poster.sex.qr, filename = "output/LiceAbundance_sex_quantileregression.png", height = 5, width = 8)
+ggsave(p.poster, filename = paste0(here::here(), "/output/LiceAbundance_bigfont.png"), height = 5, width = 8)
+ggsave(p.poster.sex, filename = paste0(here::here(), "/output/LiceAbundance_sex.png"), height = 5, width = 8)
+ggsave(p.poster.sex.qr, filename = paste0(here::here(), "/output/LiceAbundance_sex_quantileregression.png"), height = 5, width = 8)
