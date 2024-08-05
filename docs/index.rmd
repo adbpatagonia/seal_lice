@@ -36,6 +36,10 @@ El proyecto fue dirigido por la Dra Soledad Leonardi (IBIOMAR-CENPAT), y
 co-dirigido por el Dr Javier Negrete (IAA-CONICET).\
 Javier me contacto para ayudar con el analisis de estos datos
 
+
+Los analisis se encuentran en [**este repositorio**](https://github.com/adbpatagonia/seal_lice).
+
+
 # Preguntas
 
 1.  Cual es el efecto sobre la prevalencia de piojos en focas leopardo
