@@ -402,7 +402,7 @@ p.poster.sex.qr <- ggplot(leo, aes(x = rel_cond, y = Lice,
                                    shape = sex,
                                    color = as.factor(presence))) +
   theme_bw() +
-  geom_line(data = leo.present, aes(x = rel_cond,y = ELice.qr), color = cols[2], size = 1.1) +
+  geom_line(alpha = 0.6, data = leo.present, aes(x = rel_cond,y = ELice.qr), color = cols[2], size = 1.1) +
   geom_point(alpha = 0.8, size = 3) +
   scale_color_manual(values = cols) +
   guides(color = "none") +
