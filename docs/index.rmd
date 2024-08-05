@@ -270,7 +270,7 @@ print(p.m.abun)
 
 #### Regresion cuantilica          
 
-El efecto de la condicion  sobre el cuantil 50% de abundancia resulto ser no significativo, <i>p-value</i>: `r round(parameters::model_parameters(m.lice.abun.cond.nozero.qr)$p[2], 2)`, aunque el coeficiente fue negativo, <i>pendiente</i>: `r round(parameters::model_parameters(m.lice.abun.cond.nozero.qr)$Coefficient[2], 2)`.  Es decir, la condicion corporal  parece afectar negativamente la abundancia alta de piojos en focas leopardo (aunque no es significativo estadisticamente). Notese que solo hay 3 datos que caen en el cuantil 60%, por lo que estos resultados se deben interpretar con mucha cautela.       
+El efecto de la condicion  sobre el cuantil 50% de abundancia resulto ser no significativo, <i>p-value</i>: `r round(parameters::model_parameters(m.lice.abun.cond.nozero.qr)$p[2], 2)`, aunque el coeficiente fue negativo, <i>pendiente</i>: `r round(parameters::model_parameters(m.lice.abun.cond.nozero.qr)$Coefficient[2], 2)`.  Es decir, la condicion corporal  parece afectar negativamente la abundancia alta de piojos en focas leopardo (aunque no es significativo estadisticamente). Notese que solo hay 4 datos que caen en el cuantil 50%, por lo que estos resultados se deben interpretar con mucha cautela.       
 
 ```{r p.lice.qr, fig.width = 10, fig.height = 6, echo=FALSE, message=FALSE, warning=FALSE}
 print(p.m.qr.abun)
