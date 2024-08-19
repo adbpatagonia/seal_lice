@@ -166,3 +166,6 @@ p.cond.lice.presence <- ggplot(preds, aes(x = rel_cond, y = presence,
   ylab(licelabel) +
   facet_grid(species~., scales = "free_y") +
   NULL
+
+ggplotly(p.cond.lice)
+ggplotly(p.cond.lice.presence)
