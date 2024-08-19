@@ -122,30 +122,6 @@ cols <- c("grey70", "#2f606a")
 # plots ----
 ## abundance ~f(condition) ----
 p.cond.lice <- ggplot(preds, aes(x = rel_cond, y = Lice,
-                                shape = sex,
-                                color = as.factor(presence))) +
-  theme_bw() +
-  geom_point(alpha = 0.8, size = 3) +
-  scale_color_manual(values = cols) +
-  guides(color = "none") +
-  # geom_smooth() +
-  # geom_vline(xintercept = 1, lty = 2) +
-  theme(legend.position = "bottom",
-        legend.title = element_blank(),
-        legend.background = element_rect(fill = "transparent"),
-        legend.text = element_text(family = "Calibri", size = 13),
-        plot.title = element_text(size = 12, face = "bold"),
-        axis.title = element_text(family = "Calibri", face = "bold", size = 16),
-        axis.text = element_text(family = "Calibri", size = 13, colour = "black")
-  ) +
-  # xlab(relcondlabel) +
-  xlab("Abundance of A. ogmorhini") +
-  ylab('Seal Relative Condition') +
-  facet_grid(species~., scales = "free_y") +
-  NULL
-
-## abundance ~f(condition) --------
-p.cond.lice.presence <- ggplot(preds, aes(x = rel_cond, y = presence,
                                  shape = sex,
                                  color = as.factor(presence))) +
   theme_bw() +
@@ -162,10 +138,114 @@ p.cond.lice.presence <- ggplot(preds, aes(x = rel_cond, y = presence,
         axis.title = element_text(family = "Calibri", face = "bold", size = 16),
         axis.text = element_text(family = "Calibri", size = 13, colour = "black")
   ) +
-  xlab(relcondlabel) +
-  ylab(licelabel) +
+  # xlab(relcondlabel) +
+  ylab("Abundance of A. ogmorhini") +
+  xlab('Seal Relative Condition') +
+  facet_grid(species~., scales = "free_y") +
+  NULL
+
+## abundance ~f(condition) --------
+p.cond.lice.presence <- ggplot(preds, aes(x = rel_cond, y = presence,
+                                          shape = sex,
+                                          color = as.factor(presence))) +
+  theme_bw() +
+  geom_point(alpha = 0.8, size = 3) +
+  scale_color_manual(values = cols) +
+  guides(color = "none") +
+  # geom_smooth() +
+  # geom_vline(xintercept = 1, lty = 2) +
+  theme(legend.position = "bottom",
+        legend.title = element_blank(),
+        legend.background = element_rect(fill = "transparent"),
+        legend.text = element_text(family = "Calibri", size = 13),
+        plot.title = element_text(size = 12, face = "bold"),
+        axis.title = element_text(family = "Calibri", face = "bold", size = 16),
+        axis.text = element_text(family = "Calibri", size = 13, colour = "black")
+  ) +
+  ylab(relcondlabel) +
+  xlab(licelabel) +
   facet_grid(species~., scales = "free_y") +
   NULL
 
 ggplotly(p.cond.lice)
 ggplotly(p.cond.lice.presence)
+
+
+ggplotly(
+
+
+  ggplot(preds, aes(x = rel_cond, y = Lice,
+                    shape = sex,
+                    color = species)) +
+    theme_bw() +
+    geom_point(alpha = 0.8, size = 3) +
+    # scale_color_manual(values = cols) +
+    # guides(color = "none") +
+    # geom_smooth() +
+    # geom_vline(xintercept = 1, lty = 2) +
+    theme(legend.position = "bottom",
+          legend.title = element_blank(),
+          legend.background = element_rect(fill = "transparent"),
+          legend.text = element_text(family = "Calibri", size = 13),
+          plot.title = element_text(size = 12, face = "bold"),
+          axis.title = element_text(family = "Calibri", face = "bold", size = 16),
+          axis.text = element_text(family = "Calibri", size = 13, colour = "black")
+    ) +
+    # xlab(relcondlabel) +
+    ylab("Abundance of A. ogmorhini") +
+    xlab('Seal Relative Condition') +
+    # facet_grid(species~., scales = "free_y") +
+    NULL
+)
+
+
+
+m <- glmmTMB::glmmTMB(Lice  ~ rel_cond + as.factor(species) + as.factor(sex)  ,
+                                            data = preds)
+
+performance::check_model(m)
+# la abundancia de weddell esta en una escala diferente, demasiada influencia
+# quizxas estandarizar dentro de cada spp?
+summary(m
+        )
+
+
+preds <- preds %>%
+  group_by(species) %>%
+  mutate(Lice_std = standardize(Lice)) %>%
+  mutate(rel_cond_std = standardize(rel_cond))
+m <- glmmTMB::glmmTMB(Lice_std  ~ rel_cond_std + as.factor(species) + as.factor(sex)  ,
+                      data = preds)
+
+performance::check_model(m)
+# la abundancia de weddell esta en una escala diferente, demasiada influencia
+# quizxas estandarizar dentro de cada spp?
+summary(m
+)
+
+ggplotly(
+
+
+  ggplot(preds, aes(x = rel_cond_std, y = Lice_std,
+                    shape = as.factor(presence),
+                    color = species)) +
+    theme_bw() +
+    geom_point(alpha = 0.8, size = 3) +
+    # scale_color_manual(values = cols) +
+    # guides(color = "none") +
+    # geom_smooth() +
+    # geom_vline(xintercept = 1, lty = 2) +
+    theme(legend.position = "bottom",
+          legend.title = element_blank(),
+          legend.background = element_rect(fill = "transparent"),
+          legend.text = element_text(family = "Calibri", size = 13),
+          plot.title = element_text(size = 12, face = "bold"),
+          axis.title = element_text(family = "Calibri", face = "bold", size = 16),
+          axis.text = element_text(family = "Calibri", size = 13, colour = "black")
+    ) +
+    # xlab(relcondlabel) +
+    ylab("Standardized Abundance of A. ogmorhini") +
+    xlab('Standardized Seal Relative Condition') +
+    facet_grid(sex~., scales = "free_y") +
+    NULL
+)
