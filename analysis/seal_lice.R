@@ -19,6 +19,7 @@ library(performance)
 library(modelbased)
 library(quantreg)
 library(broom)
+library(stringr)
 # read data -----
 leo <- read.csv((paste0(here::here(), "/data/leopard.csv")), sep = ";", dec = ",") %>%
   mutate(species = "Leopard Seal") %>%
@@ -47,7 +48,8 @@ seal$weight_kg <- as.numeric(seal$weight_kg)
 seal$sex <- as.factor(seal$sex)
 
 # transform age_class to factor
-seal$age_class <- as.factor(seal$age_class)
+# trim whitespace
+seal$age_class <- as.factor(str_trim(seal$age_class))
 
 # code presence
 seal[, presence := ifelse(Lice == 0, 0, 1)]
@@ -58,10 +60,10 @@ seal[SL_cm == 0, SL_cm := NA]
 
 # explore data -----
 ## largo - peso ----
-# forestmangr::lm_table(
-#   seal[!is.na(sex)],
-#   model = log(weight_kg) ~ log(SL_cm),
-#   .groups = c("species", "sex"))
+forestmangr::lm_table(
+  seal[!is.na(sex)],
+  model = log(weight_kg) ~ log(SL_cm),
+  .groups = c("species", "sex"))
 
 ## fit length-weight relationships ----
 fitted_models <-
@@ -110,7 +112,7 @@ p.lw <- ggplot(data = preds, aes(x = SL_cm, y = weight_kg)) +
   geom_ribbon(aes(ymin = pred_weight_lci, ymax = pred_weight_uci), alpha = 0.2) +
   geom_point() +
   theme_bw() +
-  facet_grid(species~sex)
+  facet_grid(sex~species, scales = "free")
 
 # relative condition ----
 preds[, rel_cond := weight_kg/pred_weight]
@@ -214,7 +216,7 @@ preds <- preds %>%
   group_by(species) %>%
   mutate(Lice_std = standardize(Lice)) %>%
   mutate(rel_cond_std = standardize(rel_cond))
-m <- glmmTMB::glmmTMB(Lice_std  ~ rel_cond_std + as.factor(species) + as.factor(sex)  ,
+m <- glmmTMB::glmmTMB(Lice_std  ~ rel_cond_std + as.factor(species) + as.factor(sex) + as.factor(age_class) ,
                       data = preds)
 
 performance::check_model(m)
@@ -249,3 +251,72 @@ ggplotly(
     facet_grid(sex~., scales = "free_y") +
     NULL
 )
+
+
+
+ggplotly(
+
+
+  ggplot(preds, aes(x = rel_cond_std, y = Lice_std,
+                    shape = as.factor(presence),
+                    color = species)) +
+    theme_bw() +
+    geom_point(alpha = 0.8, size = 3) +
+    # scale_color_manual(values = cols) +
+    # guides(color = "none") +
+    # geom_smooth() +
+    # geom_vline(xintercept = 1, lty = 2) +
+    theme(legend.position = "bottom",
+          legend.title = element_blank(),
+          legend.background = element_rect(fill = "transparent"),
+          legend.text = element_text(family = "Calibri", size = 13),
+          plot.title = element_text(size = 12, face = "bold"),
+          axis.title = element_text(family = "Calibri", face = "bold", size = 16),
+          axis.text = element_text(family = "Calibri", size = 13, colour = "black")
+    ) +
+    # xlab(relcondlabel) +
+    ylab("Standardized Abundance of A. ogmorhini") +
+    xlab('Standardized Seal Relative Condition') +
+    facet_grid(age_class~., scales = "free_y") +
+    NULL
+)
+
+
+qr <- quantreg::rq(Lice_std  ~ rel_cond_std   + as.factor(species) + as.factor(sex) + as.factor(age_class) ,
+             tau = .8,
+             data = preds)
+
+
+
+
+qr <- glmmTMB::glmmTMB(Lice_std  ~ rel_cond_std + as.factor(species) + as.factor(sex) + as.factor(age_class) ,
+                 data = preds)
+
+
+
+
+
+
+  ggplot(preds, aes(y = rel_cond, x = age_class,
+                    # shape = as.factor(presence),
+                    color = species)) +
+    theme_bw() +
+    geom_point(alpha = 0.8, size = 3, position = position_jitterdodge(dodge.width = 0.3, jitter.width = .1)) +
+    # scale_color_manual(values = cols) +
+    # guides(color = "none") +
+    # geom_smooth() +
+    # geom_vline(xintercept = 1, lty = 2) +
+    theme(legend.position = "bottom",
+          legend.title = element_blank(),
+          legend.background = element_rect(fill = "transparent"),
+          legend.text = element_text(family = "Calibri", size = 13),
+          plot.title = element_text(size = 12, face = "bold"),
+          axis.title = element_text(family = "Calibri", face = "bold", size = 16),
+          axis.text = element_text(family = "Calibri", size = 13, colour = "black")
+    ) +
+    # xlab(relcondlabel) +
+    # ylab("Standardized Abundance of A. ogmorhini") +
+    # xlab('Standardized Seal Relative Condition') +
+    # facet_grid(age_class~., scales = "free_y") +
+    NULL
+
