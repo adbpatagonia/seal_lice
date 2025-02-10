@@ -428,3 +428,5 @@ p.poster.sex.qr <- ggplot(leo, aes(x = rel_cond, y = Lice,
 ggsave(p.poster, filename = paste0(here::here(), "/output/LiceAbundance_bigfont.png"), height = 5, width = 8)
 ggsave(p.poster.sex, filename = paste0(here::here(), "/output/LiceAbundance_sex.png"), height = 5, width = 8)
 ggsave(p.poster.sex.qr, filename = paste0(here::here(), "/output/LiceAbundance_sex_quantileregression.png"), height = 5, width = 8)
+
+leo[, .(Sp, year, sex,  age_class, weight_kg, SL_cm, rel_cond, Lice)] %>% arrange(Sp) %>% fwrite(x =., file = "output/Table2.csv")
