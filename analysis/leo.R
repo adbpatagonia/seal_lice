@@ -33,7 +33,7 @@ library(quantreg)
 # leo <- read.csv((paste0(here::here(), "/data/leopard2.csv")), sep = ";", dec = ",") %>%
 #   as.data.table()
 
-leo <- fread(paste0(here::here(), "/data/leopard2.csv"))
+leo <- fread(paste0(here::here(), "/data/leopard3.csv"))
 
 # look at data structure ----
 str(leo)

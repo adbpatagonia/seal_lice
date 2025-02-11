@@ -283,7 +283,7 @@ print(p.m.qr.abun)
 
 
   * Una proporcion baja de las focas muestreadas tuvieron piojos `r sum(leo$presence)/nrow(leo)*100`%.     
-    * Esta proporcion fue casi identica en hembras (`r round(100*(t.lice.presence.sex %>% filter(sex == "F") %>% select(prop) %>% pull()), 1)`%), y en machos (`r round(100*(t.lice.presence.sex %>% filter(sex == "M") %>% select(prop) %>% pull()), 1)`%)         
+    * Esta proporcion fue menor en hembras (`r round(100*(t.lice.presence.sex %>% filter(sex == "F") %>% select(prop) %>% pull()), 1)`%), que en machos (`r round(100*(t.lice.presence.sex %>% filter(sex == "M") %>% select(prop) %>% pull()), 1)`%)         
      * Esta proporcion fue mas baja en adultos (`r round(100*(t.lice.presence.age_class %>% filter(age_class == "Adult") %>% select(prop) %>% pull()), 1)`%), que en juveniles (`r round(100*(t.lice.presence.age_class %>% filter(age_class == "Juvenile") %>% select(prop) %>% pull()), 1)`%)      
      
   * Dada la baja presencia de piojos, todos los resultados de analisis estadisticos deben interpretarse con mucho precaucion.               
