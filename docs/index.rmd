@@ -22,6 +22,7 @@ knitr::opts_chunk$set(echo = TRUE)
 library('kableExtra')
 library('grid')
 library('plotly')
+library(data.table)
 
 options(scipen = 999)
 options(warn=-1)
@@ -176,7 +177,7 @@ Aqui, tome la opcion 1, pero es facil cambiarla si la segunda opcion es mas apro
 ## Condicion relativa
 
 
-No se pudo computar la condicion relativa de `r nrow(leo[is.na(rel_cond)])` focas, dado que no se registro su peso. De ellas, `rnrow(leo[is.na(rel_cond) & Lice > 0])` foca tenia `r nrow(leo[is.na(rel_cond) & Lice > 0, .(Lice)])` pijo.            
+No se pudo computar la condicion relativa de `r nrow(leo[is.na(rel_cond)])` focas, dado que no se registro su peso. De ellas, `r nrow(leo[is.na(rel_cond) & Lice > 0])` foca tenia `r pull(leo[is.na(rel_cond) & Lice > 0, .(Lice)])` piojos.            
 
 
 Distribucion de $K_r$ por sexo          
