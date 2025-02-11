@@ -177,7 +177,7 @@ Aqui, tome la opcion 1, pero es facil cambiarla si la segunda opcion es mas apro
 ## Condicion relativa
 
 
-No se pudo computar la condicion relativa de `r nrow(leo[is.na(rel_cond)])` focas, dado que no se registro su peso. De ellas, `r nrow(leo[is.na(rel_cond) & Lice > 0])` foca tenia `r pull(leo[is.na(rel_cond) & Lice > 0, .(Lice)])` piojos.            
+No se pudo computar la condicion relativa de `r nrow(leo[is.na(rel_cond)])` focas, dado que no se registro su peso. De ellas, `r nrow(leo[is.na(rel_cond) & Lice > 0])` focas (`r pull(leo[is.na(rel_cond) & Lice > 0, .(Sp)])`) tenian `r pull(leo[is.na(rel_cond) & Lice > 0, .(Lice)])` piojo cada una .            
 
 
 Distribucion de $K_r$ por sexo          
@@ -283,8 +283,8 @@ print(p.m.qr.abun)
 
 
   * Una proporcion baja de las focas muestreadas tuvieron piojos `r sum(leo$presence)/nrow(leo)*100`%.     
-    * Esta proporcion fue mas baja en hembras (`r round(100*(t.lice.presence.sex %>% filter(sex == "F") %>% select(prop) %>% pull()), 1)`%), que en machos (`r round(100*(t.lice.presence.sex %>% filter(sex == "M") %>% select(prop) %>% pull()), 1)`%)         
-     * Esta proporcion fue mas baja en adultos (`r round(100*(t.lice.presence.age_class %>% filter(age_class == "ADT") %>% select(prop) %>% pull()), 1)`%), que en juveniles (`r round(100*(t.lice.presence.age_class %>% filter(age_class == "JUV") %>% select(prop) %>% pull()), 1)`%)      
+    * Esta proporcion fue casi identica en hembras (`r round(100*(t.lice.presence.sex %>% filter(sex == "F") %>% select(prop) %>% pull()), 1)`%), y en machos (`r round(100*(t.lice.presence.sex %>% filter(sex == "M") %>% select(prop) %>% pull()), 1)`%)         
+     * Esta proporcion fue mas baja en adultos (`r round(100*(t.lice.presence.age_class %>% filter(age_class == "Adult") %>% select(prop) %>% pull()), 1)`%), que en juveniles (`r round(100*(t.lice.presence.age_class %>% filter(age_class == "Juvenile") %>% select(prop) %>% pull()), 1)`%)      
      
   * Dada la baja presencia de piojos, todos los resultados de analisis estadisticos deben interpretarse con mucho precaucion.               
   * No pude incorporar el efecto de las variables sexo o clase de edad en los analisis, ya que solo una hembra y solo un juvenil presentaron piojos. Esto no implica que no exista un efecto, implica simplemente que no lo podemos poner a prueba            
