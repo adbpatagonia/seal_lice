@@ -290,7 +290,7 @@ print(p.m.qr.abun)
   * No pude incorporar el efecto de las variables sexo o clase de edad en los analisis, ya que solo una hembra y solo un juvenil presentaron piojos. Esto no implica que no exista un efecto, implica simplemente que no lo podemos poner a prueba            
   * La condicion corporal de las focas no parece afectar la probabilidad de presencia de piojos         
   * La condicion corporal de las focas no parece afectar la abundancia media de piojos         
-  * La condicion corporal de las focas parece afectar la abundancia alta de piojos (cuantil 50%), aunque la relacion no es estadisticamente significativa.                    
+  * La condicion corporal de las focas parece afectar la abundancia alta de piojos (cuantil 50%), aunque la relacion no es estadisticamente significativa                    
     
 
 # Referencias
