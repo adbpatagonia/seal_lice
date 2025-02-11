@@ -5,4 +5,5 @@
 .DS_Store
 .quarto
 data/
+data-raw/
 output/Table2.csv
